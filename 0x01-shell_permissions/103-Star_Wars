@@ -1,2 +1,2 @@
 #!/bin/bash
-dfg
+telnet towel.blinkenlights.nl
