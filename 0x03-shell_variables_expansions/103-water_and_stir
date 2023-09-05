@@ -1,2 +1,3 @@
 #!/bin/bash
-export bestschol=$(( $(( 10#${WATER} )) + $(( 10#${STIR} )) )) | echo $bestschol
+echo $WATER | tr -d 'water' | tr 'stir.' '01234' | bc | xargs printf "%o\n" | tr 01234567 bestchol
+
