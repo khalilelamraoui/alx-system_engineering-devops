@@ -1,2 +1,2 @@
 #!/bin/bash
-export bestschol="$((10#${WATER} + 10#${STIR}))" | echo $bestschol
+export bestschol=$(( $(( 10#${WATER} )) + $(( 10#${STIR} )) )) | echo $bestschol
