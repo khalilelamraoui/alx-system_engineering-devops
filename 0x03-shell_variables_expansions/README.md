@@ -1,0 +1,2 @@
+# SHELL Variables Expansions
+<hr>
