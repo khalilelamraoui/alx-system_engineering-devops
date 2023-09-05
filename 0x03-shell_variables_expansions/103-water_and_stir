@@ -1,3 +1,2 @@
 #!/bin/bash
 echo $WATER | tr -d 'water' | tr 'stir.' '01234' | bc | xargs printf "%o\n" | tr 01234567 bestchol
-
