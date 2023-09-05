@@ -1,2 +1,0 @@
-# Shell Variables Expansions
-<hr>
