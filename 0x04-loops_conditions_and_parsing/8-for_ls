@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# This script displays the content of the current directory
+# in a list format
+# where onlonly the part of the name after the first dash is displayed
+for file in *
+do
+    echo "${file#*-}"
+done
