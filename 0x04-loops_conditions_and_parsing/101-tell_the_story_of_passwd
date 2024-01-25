@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Script that displays the content of the file /etc/passwd
+# using the while loop + IFS
+if [ -e "/etc/passwd" ]; then
+
+    # Use a while loop to read each line of the file
+    while IFS=: read -r username _ userid groupid info homedir shell; do
+        IFS=' ' read -ra id_info <<< "$info"
+        password=${id_info[-1]}
+        id_info=${id_info[@]:0:${#id_info[@]}-1}
+
+        echo -n "The user $username is part of the $groupid gang, "
+        echo -n "lives in $homedir and rides $shell. "
+        echo -n "USER ID's place is protected by the passcode $password, "
+        echo "more info about the user here: ${id_info[@]}"
+    done < "/etc/passwd"
+fi
