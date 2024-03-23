@@ -1,0 +1,7 @@
+# Configuring the SSH client to use the private key file.
+
+Host *
+    Port 22
+    User ubuntu
+    HostName 34.229.254.181
+    IdentityFile ~/.ssh/school
