@@ -1,54 +1,38 @@
 #!/usr/bin/env bash
+#configure erro page 404
 
-# Check if the script is being run as root
-if [ "$(id -u)" != "0" ]; then
-    echo "This script must be run as root" 1>&2
-    exit 1
-fi
-
-# Update package index
-apt-get update
-
-# Install nginx
-apt-get -y install nginx
-
-# Allow Nginx through the firewall
+sudo apt-get update
+sudo apt-get -y install nginx
 ufw allow 'Nginx HTTP'
-
-# Set permissions for the website directory
 chmod -R 755 /var/www
-
-# Create index.html with 'Hello World!'
 echo 'Hello World' > /var/www/html/index.html
 
-# Create 404.html with custom message
-echo "Ceci n'est pas une page" > /var/www/html/404.html
-
-# Configure server block
 new_config=\
 "server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
-    server_name _;
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-
-    error_page 404 /404.html;
-    location = /404.html {
-        internal;
-    }
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-}"
-
-# Write server configuration to nginx default site
+        listen 80 default_server;
+        listen [::]:80 default_server;
+               root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name _;
+        location / {
+                try_files \$uri \$uri/ =404;
+        }
+        error_page 404 /404.html;
+        location  /404.html {
+            internal;
+        }
+        
+        if (\$request_filename ~ redirect_me){
+            rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+        }
+}
+"
+echo "Ceci n'est pas une page" > /var/www/html/404.html
 echo "$new_config" > /etc/nginx/sites-available/default
 
-# Restart Nginx service
-service nginx restart
+if [ "$(pgrep nginx)" -le 0 ];
+then
+    service nginx start
+else
+    service nginx restart
+fi;
