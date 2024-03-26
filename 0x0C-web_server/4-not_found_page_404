@@ -6,16 +6,22 @@ sudo apt update
 # Install nginx
 sudo apt install nginx -y
 
-# Configure redirection
-sudo bash -c 'cat > /etc/nginx/sites-available/redirect_me' << EOF
+# Configure custom 404 page
+sudo bash -c 'cat > /etc/nginx/sites-available/custom_404' << EOF
 server {
-    listen 80;
-    listen [::]:80;
+    listen 80 default_server;
+    listen [::]:80 default_server;
 
     server_name _;
 
-    location /redirect_me {
-        return 301 https://example.com/new_page;
+    error_page 404 /404.html;
+    location = /404.html {
+        root /usr/share/nginx/html;
+        internal;
+    }
+
+    location / {
+        return 404 "Ceci n'est pas une page";
     }
 
     # Other configurations if any
@@ -23,7 +29,7 @@ server {
 EOF
 
 # Create a symbolic link to enable the site
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/custom_404 /etc/nginx/sites-enabled/
 
 # Remove default symlink to default site configuration
 sudo rm /etc/nginx/sites-enabled/default
