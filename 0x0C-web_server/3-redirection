@@ -1,35 +1,31 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Redirection script
 
-# Update package index
-sudo apt update
+apt-get update
+apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+mkdir -p /var/www/html/
+sudo chmod -R 755 /var/www
+echo 'Hello World!' > /var/www/html/index.html
+SERVER_CONFIG=\
+"server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	server_name _;
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+	if (\$request_filename ~ redirect_me){
+		rewrite ^ https://sketchfab.com/bluepeno/models permanent;
+	}
+}"
 
-# Install nginx
-sudo apt install nginx -y
+bash -c "echo -e '$SERVER_CONFIG' > /etc/nginx/sites-enabled/default"
 
-# Configure redirection
-sudo bash -c 'cat > /etc/nginx/sites-available/redirect_me' << EOF
-server {
-    listen 80;
-    listen [::]:80;
-
-    server_name _;
-
-    location /redirect_me {
-        return 301 https://example.com/new_page;
-    }
-
-    # Other configurations if any
-}
-EOF
-
-# Create a symbolic link to enable the site
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-
-# Remove default symlink to default site configuration
-sudo rm /etc/nginx/sites-enabled/default
-
-# Test Nginx configuration
-sudo nginx -t
-
-# Reload Nginx to apply changes
-sudo systemctl reload nginx
+if [ "$(pgrep -c nginx)" -le 0 ]; then
+	service nginx start
+else
+	service nginx restart
+fi
