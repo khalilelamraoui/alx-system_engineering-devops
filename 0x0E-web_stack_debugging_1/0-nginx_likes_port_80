@@ -1,20 +1,5 @@
-#!/bin/bash
-
-# Install NGINX if not already installed
-apt-get update
-apt-get install -y nginx
-
-# Check NGINX configuration file
-nginx_config="/etc/nginx/nginx.conf"
-
-# Backup the original configuration file
-cp $nginx_config ${nginx_config}.bak
-
-# Modify NGINX configuration to listen on port 80
-sed -i 's/listen\s*80;/listen 80 default_server;/g' $nginx_config
-
-# Restart NGINX to apply changes
-service nginx restart
-
-echo "NGINX configured to listen on port 80."
+#!/usr/bin/env bash
+# script that changes the default port of nginx to 80
+sudo sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+sudo service nginx restart
 
