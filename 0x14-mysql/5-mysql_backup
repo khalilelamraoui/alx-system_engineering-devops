@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# script that takes the root password of a MySQL database as an argument
+# performs a mysqldump of the database using the root password
+mysqldump -uroot -p"$1" --all-databases > backup.sql
+current_date=$(date "+%d-%m-%Y")
+tar -cvzf "$current_date.tar.gz" backup.sql
