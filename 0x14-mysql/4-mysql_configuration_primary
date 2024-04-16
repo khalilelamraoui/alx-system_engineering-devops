@@ -5,3 +5,5 @@ datadir         = /var/lib/mysql
 log-error       = /var/log/mysql/error.log
 log_bin = /var/log/mysql/mysql-bin.log
 server-id = 1
+binlog_do_db   = tyrell_corp
+symbolic-links=0
