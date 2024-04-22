@@ -10,8 +10,8 @@ import sys
 
 def get_employee_todo_progress(employee_id):
     base_url = 'https://jsonplaceholder.typicode.com'
-    employee_url = f'{base_url}/users/{employee_id}'
-    todos_url = f'{base_url}/todos?userId={employee_id}'
+    employee_url = (f'{base_url}/users/{employee_id}')
+    todos_url = (f'{base_url}/todos?userId={employee_id}')
 
     # Fetching employee information
     employee_response = requests.get(employee_url)
@@ -27,8 +27,8 @@ def get_employee_todo_progress(employee_id):
     completed_tasks = sum(1 for todo in todos_data if todo['completed'])
 
     # Displaying progress
-    print(f"Employee {employee_name} is done with tasks (\
-          {completed_tasks}/{total_tasks}):")
+    print(f"Employee {employee_name} is done with tasks ("
+          f"{completed_tasks}/{total_tasks}):")
     for todo in todos_data:
         if todo['completed']:
             print(f"\t{todo['title']}")
