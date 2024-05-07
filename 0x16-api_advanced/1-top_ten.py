@@ -1,24 +1,24 @@
 #!/usr/bin/python3
 """
-script that queries the Reddit API
-returns the top 10 hot posts listed
+Script that queries the Reddit API and returns the top 10 hot posts listed.
 """
 import requests
 
 
 def top_ten(subreddit):
-    """prints the titles of the first 10 hot posts listed"""
-    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
-    headers = {
-        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
-    }
-    params = {
-        "limit": 10
-    }
-    response = requests.get(url, headers=headers, params=params,
-                            allow_redirects=False)
-    if response.status_code == 404:
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
+    headers = {'User-Agent': 'MyBot/0.0.1'}
+    params = {'limit': 10}  # Limiting to the first 10 posts
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        posts = data['data']['children']
+        if posts:
+            for post in posts:
+                print(post['data']['title'])
+        else:
+            print("No posts found for this subreddit.")
+    else:
         print("None")
-        return
-    results = response.json().get("data")
-    [print(c.get("data").get("title")) for c in results.get("children")]
