@@ -3,12 +3,13 @@
 Script that queries the Reddit API and returns the top 10 hot posts listed.
 """
 import requests
+import sys
 
 
 def top_ten(subreddit):
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {'User-Agent': 'MyBot/0.0.1'}
-    params = {'limit': 10}  # Limiting to the first 10 posts
+    params = {'limit': 10}
 
     response = requests.get(url, headers=headers, params=params)
 

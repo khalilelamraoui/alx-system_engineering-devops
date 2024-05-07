@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 """
 script that queries the Reddit API
-returns the number of subscribers
+returns titles of all hot articles for a given subreddit
 """
 import requests
-import sys
 
 
 def recurse(subreddit, hot_list=[], after=None):
