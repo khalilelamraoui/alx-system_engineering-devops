@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-"""top_ten"""
+"""
+script that queries the Reddit API
+returns the top 10 hot posts listed
+"""
 import requests
 
 
