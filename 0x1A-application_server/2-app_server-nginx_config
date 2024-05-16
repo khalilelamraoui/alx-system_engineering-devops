@@ -45,7 +45,7 @@ server {
 	# Add index.php to the list if you are using PHP
 	index index.html index.htm index.nginx-debian.html;
 
-	server_name 54.146.61.199;
+	server_name 34.229.254.181;
 
     	location /airbnb-onepage/ {
         	proxy_pass http://localhost:5000/airbnb-onepage/;
